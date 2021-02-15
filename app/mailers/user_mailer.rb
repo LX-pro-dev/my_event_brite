@@ -1,6 +1,6 @@
 class UserMailer < ApplicationMailer
 
-  default from: 'yolo@yopmail.com'
+  default from: 'pierre@yopmail.com'
 
   layout "mailer"
   def welcome_email(user)
