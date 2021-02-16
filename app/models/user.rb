@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  after_create :welcome_send
+
 
   # 1 - N association with hosted events (events) as host
   has_many :hosted_events, class_name: 'Event', foreign_key: 'host_id'
@@ -17,7 +17,7 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true, format: {with: /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i, message: 'should look like something@provider.extension.'}
   validates :encrypted_password, presence: true, length: { minimum: 8 }
-  validates :first_name, :last_name, format: {with: /[a-zA-Z]/, message: 'should only contain UTF-8 letters'}
+  #validates :first_name, :last_name, format: {with: /[a-zA-Z]/, message: 'should only contain UTF-8 letters'}
   
   before_save :downcase_it_all
 

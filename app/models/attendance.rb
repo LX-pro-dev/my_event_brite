@@ -1,6 +1,6 @@
 class Attendance < ApplicationRecord
 
-  after_create :confirmation_send
+  after_create :new_guest_send
 
   belongs_to :guest, class_name: 'User'
   belongs_to :attended_event, class_name: 'Event'
@@ -11,7 +11,7 @@ class Attendance < ApplicationRecord
 
   private
   
-  def confirmation_send
+  def new_guest_send
       AttendanceMailer.new_guest_email(self.attended_event.host).deliver_now
   end
 

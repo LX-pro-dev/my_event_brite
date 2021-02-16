@@ -7,7 +7,7 @@ class Event < ApplicationRecord
   validates :duration, presence: true, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :title, presence: true, length: {minimum: 5, maximum:140}
   validates :description, presence: true, length: {minimum: 20, maximum:1000}
-  validates :price, presence: true, numericality: { :only _integer =>true }, :inclusion => { :in => 1..1000 }
+  validates :price, presence: true, numericality: { :only_integer =>true }, :inclusion => { :in => 1..1000 }
   validates :location, presence: true
   
   validate :start_date_cannot_be_in_the_past
