@@ -9,9 +9,9 @@ require 'faker'
 
 20.times do |i|
   User.create(
-    email: i.to_s+'coco@yopmail.com',
+    email: i.to_s+"coco@yopmail.com",
     encrypted_password: Faker::Internet.password(min_length: 10, max_length: 20),
-    description: Faker::Lorem.paragraph(sentence_count: 4)
+    description: Faker::Lorem.paragraph(sentence_count: 4),
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name)
 end
@@ -29,7 +29,6 @@ end
 40.times do
   Attendance.create(
     user_id: User.all.sample.id,
-    envet_id: Event.all.sample.id,
-    stripe_customer_id: Faker::Internet.password(min_length: 10, max_length: 20)
-  )
+    event_id: Event.all.sample.id,
+    stripe_customer_id: Faker::Internet.password(min_length: 10, max_length: 20))
 end
