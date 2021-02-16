@@ -30,6 +30,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'table_print'
 gem 'faker'
 gem 'dotenv-rails'
+gem 'devise'
 
 # Preview email in the default browser instead of sending it.
 gem "letter_opener", :group => :development
