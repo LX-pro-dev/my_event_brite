@@ -5,30 +5,77 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-require 'faker'
 
-20.times do |i|
-  User.create(
-    email: i.to_s+"coco@yopmail.com",
-    encrypted_password: Faker::Internet.password(min_length: 10, max_length: 20),
-    description: Faker::Lorem.paragraph(sentence_count: 4),
+puts '#############################'
+puts '#   Starting seed process   #'
+puts '#############################'
+
+puts '',''
+puts '#' * 40
+puts 'Wiping database'
+
+ActiveRecord::Base.establish_connection
+ActiveRecord::Base.connection.tables.each do |table|
+  # deletes all tables in DB except for the schema one
+  next if table == 'schema_migrations' || table == 'ar_internal_metadata'
+  ActiveRecord::Base.connection.execute("TRUNCATE #{table}")
+  ActiveRecord::Base.connection.reset_pk_sequence!(table)
+end
+
+puts '-' * 10 + 'Database wiped' + '- * 10'
+puts ''
+
+puts '#' * 40
+puts 'Creating users'
+
+10.times do
+  User.create!(
+    email: Faker::Internet.email,
+    password: 'passwordpassword',
     first_name: Faker::Name.first_name,
-    last_name: Faker::Name.last_name)
+    last_name: Faker::Name.last_name,
+    description: Faker::Lorem.sentence(word_count: 2)
+  )
 end
 
-30.times do
-  Event.create(
-    start_date: Faker::Time.between(from: DateTime.now - 14, to: DateTime.now, format: :default),
-    duration: rand(1..12) * 5,
-    title: Faker::Movie.title,
-    description: Faker::Lorem.characters(number: 4),
-    price: rand(1..1000),
-    location: Faker::Address.city)
+puts '-' * 10 + 'Users created ' + '- * 10'
+puts ''
+
+puts '#' * 40
+puts 'Creating events'
+
+20.times do
+  Event.create!(
+    title: Faker::Lorem.sentence(word_count: 2),
+    start_date: Time.now + rand(10000..50000),
+    duration: rand(1..5) * 20,
+    description: Faker::Lorem.sentence(word_count: 10),
+    price: rand(3..90) * 10,
+    location: Faker::Address.city,
+    host_id: User.all.sample.id
+  )
 end
 
-40.times do
-  Attendance.create(
-    user_id: User.all.sample.id,
-    event_id: Event.all.sample.id,
-    stripe_customer_id: Faker::Internet.password(min_length: 10, max_length: 20))
+puts '-' * 10 + 'Events created' + '- * 10'
+puts ''
+
+puts '#' * 40
+puts 'Creating attendances'
+users_ids = User.all.ids
+Event.all.each do |event|
+  (users_ids - [event.host.id]).sample(rand(2..5)).each do |user_id|
+    Attendance.create!(
+      stripe_customer_id: Faker::Alphanumeric.unique.alpha(number: 10),
+      attended_event_id: event.id,
+      guest_id: user_id
+    )
+    end
 end
+
+puts '-' * 10 + 'Attendances created' + '- * 10'
+puts '',''
+
+puts '###################################'
+puts '#   Seeding complete - no error   #'
+puts '###################################'
+puts '',''

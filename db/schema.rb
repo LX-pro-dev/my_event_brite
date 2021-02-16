@@ -17,36 +17,41 @@ ActiveRecord::Schema.define(version: 2021_02_16_102358) do
 
   create_table "attendances", force: :cascade do |t|
     t.string "stripe_customer_id"
-    t.bigint "user_id"
-    t.bigint "event_id"
+    t.bigint "guest_id"
+    t.bigint "attended_event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["event_id"], name: "index_attendances_on_event_id"
-    t.index ["user_id"], name: "index_attendances_on_user_id"
+    t.index ["attended_event_id"], name: "index_attendances_on_attended_event_id"
+    t.index ["guest_id"], name: "index_attendances_on_guest_id"
   end
 
   create_table "events", force: :cascade do |t|
+    t.string "title"
     t.datetime "start_date"
     t.integer "duration"
-    t.string "title"
     t.text "description"
     t.integer "price"
     t.string "location"
+    t.bigint "host_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["host_id"], name: "index_events_on_host_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email"
-    t.string "encrypted_password"
-    t.text "description"
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "password_digest"
     t.string "first_name"
     t.string "last_name"
+    t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
 end

@@ -31,6 +31,10 @@ gem 'table_print'
 gem 'faker'
 gem 'dotenv-rails'
 gem 'devise'
+# jQuery required by bootstrap gem
+gem 'jquery-rails'
+# The Bootstrap gem
+gem 'bootstrap', '~>4.3.1'
 
 # Preview email in the default browser instead of sending it.
 gem "letter_opener", :group => :development
