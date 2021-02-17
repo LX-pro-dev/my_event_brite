@@ -3,9 +3,9 @@ class CreateEvents < ActiveRecord::Migration[5.2]
     create_table :events do |t|
       t.belongs_to :host, index: true
       
+      t.string :title
       t.datetime :start_date
       t.integer :duration
-      t.string :title
       t.text :description
       t.integer :price
       t.string :location

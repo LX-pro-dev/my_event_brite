@@ -4,14 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-
-  # 1 - N association with hosted events (events) as host
   has_many :hosted_events, class_name: 'Event', foreign_key: 'host_id'
-  
-  # 1 - N association with Attendance as guest
   has_many :attendances, foreign_key: 'guest_id'
-
-  # N - N association with attended event (event) as guest
   has_many :attended_events, through: :attendances, source: :attended_event
 
 

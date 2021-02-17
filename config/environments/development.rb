@@ -51,6 +51,8 @@ Rails.application.configure do
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
+  #pour réinitialiser le mdp
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
   # Set the delivery method for Letter Opener
   #config.action_mailer.delivery_method = :letter_opener
@@ -62,7 +64,5 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
-
-  #pour réinitialiser le mdp
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  
 end
